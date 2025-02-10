@@ -50,10 +50,13 @@ data merge block 0 0 14 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage:
 data merge block 0 0 15 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 206}}}
 etc..
 ```
-  referred to as the block data that spawn in the game in same index location:
-![Blocks that contain the data](img/blockData.png)
-```
-block_data = [
+The following is the transformation matrix used in the challenge. Click to expand.
+
+<details>
+  <summary>View Block Data</summary>
+
+  <pre>
+[
   [22, 31, 224, 191, 160, 143, 101, 173, 255, 239, 140, 63, 139, 17, 22, 206, 120, 114, 221, 115, 198, 66, 13, 181, 161, 156, 111, 40, 10, 5, 7, 188, 155, 120, 253, 103, 51, 94, 72, 63],
   [37, 6, 237, 26, 169, 62, 173, 163, 99, 89, 130, 44, 151, 121, 55, 191, 221, 253, 205, 232, 79, 186, 1, 137, 1, 104, 228, 231, 200, 177, 35, 37, 206, 30, 132, 46, 63, 115, 66, 147],
   [39, 251, 58, 168, 15, 4, 190, 16, 105, 190, 29, 36, 121, 190, 49, 66, 42, 107, 160, 193, 54, 156, 169, 65, 37, 198, 9, 80, 160, 159, 73, 54, 81, 157, 220, 162, 158, 126, 83, 130],
@@ -96,7 +99,11 @@ block_data = [
   [130, 8, 19, 5, 183, 252, 84, 85, 201, 129, 11, 135, 167, 10, 180, 184, 117, 75, 181, 152, 194, 16, 197, 169, 182, 167, 248, 71, 180, 62, 190, 140, 246, 252, 209, 129, 146, 30, 96, 159],
 ]
 
-```
+  </pre>
+</details>
+
+  referred to as the block data that spawn in the game in same index location:
+![Blocks that contain the data](img/blockData.png)
  This final transformation diffuses the information across all 40 registers.
 
 3. **Output Comparison:**  
