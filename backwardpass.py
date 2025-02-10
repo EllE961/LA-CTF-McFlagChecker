@@ -80,7 +80,6 @@ for i, z in enumerate(Z):
     try:
         r = discrete_log(modulus, z, 6)  # Solve for exponent
     except Exception as e:
-        print(f"Error at index {i} with z={z}: {e}")
         r = None
     
     if r is not None:
