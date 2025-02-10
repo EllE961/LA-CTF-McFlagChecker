@@ -102,7 +102,7 @@ The following is the transformation matrix used in the challenge. Click to expan
   </pre>
 </details>
 
-  referred to as the block data that spawn in the game in same index location:
+  The blocks with the data spawn in the game in same index location:
 ![Blocks that contain the data](img/blockData.png)
  This final transformation diffuses the information across all 40 registers.
 
