@@ -66,6 +66,9 @@ execute unless score Global Reg4 matches 164 run scoreboard players set Global v
 execute unless score Global Reg5 matches 129 run scoreboard players set Global var4 0
 etc..
 ```
+```
+[165, 159, 193, 12, 170, 90, 182, 156, 214, 172, 62, 59, 106, 175, 186, 174, 231, 160, 56, 67, 221, 44, 68, 90, 244, 192, 123, 140, 245, 218, 169, 58, 8]
+```
    To solve the challenge, you must reverse these operations to determine the original input that yields the target output.
 
 ---
