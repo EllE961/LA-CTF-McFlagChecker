@@ -15,7 +15,7 @@ The datapack performs a series of nontrivial mathematical and bitwise operations
 ### Datapack Workflow
 
 1. **Input Registers:**  
-   The challenge begins with an array of 40 numbers that encode the flag (typically represented as ASCII values). These numbers, when interpreted as characters, form the flag string (for example, something that might start with "lactf{...}") and by default it [0] *40.
+   The challenge begins with an array of 40 numbers that encode the flag (typically represented as ASCII values). These numbers, when interpreted as characters, form the flag string (for example, something that might start with "lactf{...}") and by default it is [0] *40.
 
 2. **Forward Transformations:**  
    The datapack applies several layers of transformations:
