@@ -79,7 +79,7 @@ The end result of the backward pass is the recovery of the original 40-element r
 ## How to Approach the Challenge
 
 1. **Analyze the Datapack:**  
-   Begin by converting the Minecraft datapack’s `.mcfunction` files into a more readable format (for example, by rewriting them in a high-level language). This will help you understand the sequence and nature of the transformations.
+   Begin by converting the Minecraft datapack’s `.mcfunction` files (Minecraft assembly) into a more readable format (for example, by rewriting them in a high-level language). This will help you understand the sequence and nature of the transformations.
 
 2. **Reconstruct the Forward Pass:**  
    Carefully simulate the forward pass by following each transformation step. Understanding how the original flag is processed is crucial for devising a reversal strategy.
