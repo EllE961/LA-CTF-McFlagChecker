@@ -15,7 +15,7 @@ The datapack performs a series of nontrivial mathematical and bitwise operations
 ### Datapack Workflow
 
 1. **Input Registers:**  
-   The challenge begins with an array of 40 numbers that encode the flag (typically represented as ASCII values). These numbers, when interpreted as characters, form the flag string (for example, something that might start with "lactf{...}").
+   The challenge begins with an array of 40 numbers that encode the flag (typically represented as ASCII values). These numbers, when interpreted as characters, form the flag string (for example, something that might start with "lactf{...}") and by default it [0] *40.
 
 2. **Forward Transformations:**  
    The datapack applies several layers of transformations:
@@ -30,10 +30,43 @@ The datapack performs a series of nontrivial mathematical and bitwise operations
      After the XOR, each value is transformed by raising a fixed base (6) to the power of the current value, with the result taken modulo 251. This step further obscures the relationship between the input and the output.
    
    - **Modular Matrix Multiplication:**  
-     Finally, the datapack mixes the register values by multiplying them with a 40×40 matrix (referred to as the block data) modulo 251. This final transformation diffuses the information across all 40 registers.
+     Finally, the datapack mixes the register values by multiplying them with a 40×40 matrix (3D array but we can drop y value since it all Zeros) that can be found in reset.mcfunction:
+```
+data merge block 0 0 0 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 22}}}
+data merge block 0 0 1 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 31}}}
+data merge block 0 0 2 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 224}}}
+data merge block 0 0 3 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 191}}}
+data merge block 0 0 4 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 160}}}
+data merge block 0 0 5 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 143}}}
+data merge block 0 0 6 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 101}}}
+data merge block 0 0 7 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 173}}}
+data merge block 0 0 8 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 255}}}
+data merge block 0 0 9 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 239}}}
+data merge block 0 0 10 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 140}}}
+data merge block 0 0 11 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 63}}}
+data merge block 0 0 12 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 139}}}
+data merge block 0 0 13 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 17}}}
+data merge block 0 0 14 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 22}}}
+data merge block 0 0 15 {RecordItem:{id:"minecraft:stone",Count:1b,tag:{Storage: 206}}}
+etc..
+```
+  referred to as the block data that spawn in the game in same index location:
+![Blocks that contain the data](img/blockData.png)
+
+ This final transformation diffuses the information across all 40 registers.
 
 3. **Output Comparison:**  
-   The resulting registers are compared against a predetermined target array. To solve the challenge, you must reverse these operations to determine the original input that yields the target output.
+   The resulting registers are compared against a predetermined target array that can be found at the end of check_flag.mcfunction:
+```
+execute unless score Global Reg0 matches 137 run scoreboard players set Global var4 0
+execute unless score Global Reg1 matches 193 run scoreboard players set Global var4 0
+execute unless score Global Reg2 matches 59 run scoreboard players set Global var4 0
+execute unless score Global Reg3 matches 168 run scoreboard players set Global var4 0
+execute unless score Global Reg4 matches 164 run scoreboard players set Global var4 0
+execute unless score Global Reg5 matches 129 run scoreboard players set Global var4 0
+etc..
+```
+   To solve the challenge, you must reverse these operations to determine the original input that yields the target output.
 
 ---
 
@@ -79,7 +112,15 @@ The end result of the backward pass is the recovery of the original 40-element r
 ## How to Approach the Challenge
 
 1. **Analyze the Datapack:**  
-   Begin by converting the Minecraft datapack’s `.mcfunction` files (Minecraft assembly) into a more readable format (for example, by rewriting them in a high-level language). This will help you understand the sequence and nature of the transformations.
+   Begin by converting the Minecraft datapack’s `.mcfunction` files (Minecraft assembly) like this:
+```
+scoreboard players operation Global y = Global Param1
+scoreboard players operation Global x = Global Param0
+scoreboard players set Global f3_scratch0 1
+execute if score Global x > Global y run function chall:line019/execute2
+execute if score Global f3_scratch0 matches 1.. run scoreboard players operation Global ReturnValue = Global y
+```
+ into a more readable format (for example, by rewriting them in a high-level language). This will help you understand the sequence and nature of the transformations.
 
 2. **Reconstruct the Forward Pass:**  
    Carefully simulate the forward pass by following each transformation step. Understanding how the original flag is processed is crucial for devising a reversal strategy.
@@ -109,3 +150,31 @@ After successfully reversing the transformations applied by the Minecraft datapa
 lactf{y4Y_th1s_fl4g_g1v3s_y0u_4_d14m0nd}
 ```
 This confirms that our backward pass correctly reconstructed the original flag used as input to the datapack.
+
+---
+
+# Useful Commands for the Challenge
+
+During the challenge, you can use the following Minecraft commands to interact with the datapack and test different inputs:
+
+### **Core Commands**
+- **Check the flag:**  
+  Use `/function chall:check_flag` to run the flag-checking function in the datapack.
+
+- **Reset the challenge state:**  
+  Use `/function chall:reset` to reset the challenge, useful if something goes wrong.
+
+- **Reload the datapack:**  
+  Use `/reload` to reload the Minecraft world’s datapacks if you change the datapack code.
+
+### **Custom Testing Commands**
+- **Set a custom flag input for testing:**  
+  Use `/function chall:setter` to manually test a custom flag input (change the regs values in setter.mcfunction).
+
+### **Scoreboard Debugging Commands**
+- **Retrieve the value of a specific register (e.g., reg0):**  
+  Use `/scoreboard players get Global reg0` to print the current value stored in `reg0`.
+
+- **Manually set a register value (e.g., reg0 to 100):**  
+  Use `/scoreboard players set Global reg0 100` to set `reg0` to 100 for debugging purposes.
+
